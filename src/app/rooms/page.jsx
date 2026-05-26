@@ -1,0 +1,256 @@
+import Image from "next/image";
+import Link from "next/link";
+
+import {
+  FaArrowRight,
+  FaLayerGroup,
+  FaSearch,
+} from "react-icons/fa";
+
+const AllRoomsPage = async () => {
+
+  const res = await fetch("http://localhost:5000/rooms", {
+    cache: "no-store",
+  });
+
+  const rooms = await res.json();
+
+  return (
+    <section className="min-h-screen bg-slate-50 px-4 py-20 dark:bg-slate-900 sm:px-6 lg:px-8">
+
+      <div className="mx-auto max-w-7xl">
+
+        {/* Header */}
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+
+          <div className="max-w-2xl">
+
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 dark:border-white/10 dark:bg-white/5">
+
+              <FaLayerGroup className="text-indigo-500" />
+
+              <span className="text-sm font-medium text-slate-700 dark:text-gray-300">
+                Available Study Rooms
+              </span>
+
+            </div>
+
+            <h1 className="text-3xl font-black leading-tight text-slate-900 md:text-5xl dark:text-white">
+
+              Explore All
+
+              <span className="bg-gradient-to-r from-indigo-500 to-emerald-500 bg-clip-text text-transparent">
+                {" "}
+                Study Spaces
+              </span>
+
+            </h1>
+
+            <p className="mt-5 text-base leading-7 text-slate-600 dark:text-gray-400 md:text-lg">
+              Browse all available study rooms designed for productivity,
+              collaboration, and focused learning experiences.
+            </p>
+
+          </div>
+
+          {/* Search UI */}
+          <div className="relative w-full md:max-w-sm">
+
+            <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+
+            <input
+              type="text"
+              placeholder="Search rooms..."
+              className="
+                w-full
+                rounded-2xl
+                border
+                border-slate-200
+                bg-white
+                py-3
+                pl-12
+                pr-4
+                text-sm
+                outline-none
+                transition
+                focus:border-indigo-500
+                dark:border-white/10
+                dark:bg-slate-950
+                dark:text-white
+              "
+            />
+
+          </div>
+
+        </div>
+
+        {/* Empty State */}
+        {
+          rooms.length === 0 && (
+            <div className="mt-20 text-center">
+
+              <h3 className="text-2xl font-bold text-slate-800 dark:text-white">
+                No Rooms Found
+              </h3>
+
+              <p className="mt-3 text-slate-600 dark:text-gray-400">
+                There are currently no available study rooms.
+              </p>
+
+            </div>
+          )
+        }
+
+        {/* Cards */}
+        <div className="mt-14 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+
+          {rooms.map((room) => (
+
+            <div
+              key={room._id}
+              className="
+                flex
+                h-full
+                flex-col
+                overflow-hidden
+                rounded-3xl
+                border
+                border-slate-200
+                bg-white
+                shadow-sm
+                transition
+                duration-300
+                hover:-translate-y-2
+                hover:shadow-2xl
+                dark:border-white/10
+                dark:bg-slate-950
+              "
+            >
+
+              {/* Image */}
+              <div className="relative h-64 w-full overflow-hidden">
+
+                <Image
+                  src={room.image}
+                  alt={room.roomName}
+                  fill
+                  className="object-cover transition duration-500 hover:scale-105"
+                />
+
+                {/* Price */}
+                <div className="absolute left-4 top-4 rounded-full bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-lg">
+
+                  ${room.hourlyRate}/hr
+
+                </div>
+
+              </div>
+
+              {/* Content */}
+              <div className="flex flex-1 flex-col p-6">
+
+                {/* Title */}
+                <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
+
+                  {room.roomName}
+
+                </h2>
+
+                {/* Description */}
+                <p className="mt-4 text-sm leading-7 text-slate-600 dark:text-gray-400">
+
+                  {room.description?.slice(0, 100)}...
+
+                </p>
+
+                {/* Info */}
+                <div className="mt-5 space-y-2">
+
+                  <p className="text-sm text-slate-700 dark:text-gray-300">
+                    Floor: {room.floor}
+                  </p>
+
+                  <p className="text-sm text-slate-700 dark:text-gray-300">
+                    Capacity: {room.capacity}
+                  </p>
+
+                  <p className="text-sm text-slate-700 dark:text-gray-300">
+                    Bookings: {room.bookingCount}
+                  </p>
+
+                </div>
+
+                {/* Amenities */}
+                <div className="mt-5 flex flex-wrap gap-2">
+
+                  {room.amenities?.slice(0, 3).map((item, index) => (
+
+                    <span
+                      key={index}
+                      className="
+                        rounded-full
+                        bg-indigo-100
+                        px-3
+                        py-1
+                        text-xs
+                        font-medium
+                        text-indigo-700
+                        dark:bg-indigo-500/10
+                        dark:text-indigo-300
+                      "
+                    >
+                      {item}
+                    </span>
+
+                  ))}
+
+                  {room.amenities?.length > 3 && (
+
+                    <span className="rounded-full bg-slate-200 px-3 py-1 text-xs font-medium text-slate-700 dark:bg-white/10 dark:text-gray-300">
+
+                      +{room.amenities.length - 3} more
+
+                    </span>
+
+                  )}
+
+                </div>
+
+                {/* Button */}
+                <Link
+                  href={`/rooms/${room._id}`}
+                  className="
+                    mt-auto
+                    inline-flex
+                    items-center
+                    gap-2
+                    pt-6
+                    font-semibold
+                    text-indigo-600
+                    transition
+                    hover:gap-3
+                    dark:text-indigo-400
+                  "
+                >
+
+                  View Details
+
+                  <FaArrowRight />
+
+                </Link>
+
+              </div>
+
+            </div>
+
+          ))}
+
+        </div>
+
+      </div>
+
+    </section>
+  );
+};
+
+export default AllRoomsPage;
