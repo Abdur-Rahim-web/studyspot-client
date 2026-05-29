@@ -30,7 +30,7 @@ const Navbar = () => {
 
       <li>
         <Link
-          href="/rooms/create"
+          href="/add-room"
           className="text-sm font-medium text-gray-700 transition hover:text-indigo-600 dark:text-gray-200 dark:hover:text-indigo-400"
         >
           Add Room
