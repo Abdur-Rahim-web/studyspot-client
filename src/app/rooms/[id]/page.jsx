@@ -1,3 +1,5 @@
+import { DeleteRoom } from "@/components/DeleteRoom";
+import { EditRoom } from "@/components/EditRoom";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -6,9 +8,7 @@ import {
     FaChair,
     FaDollarSign,
     FaLayerGroup,
-    FaMapMarkerAlt,
     FaUsers,
-    FaWifi,
     FaCheckCircle,
     FaCalendarCheck,
 } from "react-icons/fa";
@@ -66,7 +66,7 @@ const RoomDetailsPage = async ({ params }) => {
                     {/* Image Section */}
                     <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white dark:border-white/10 dark:bg-slate-950">
 
-                        <div className="relative h-[300px] w-full sm:h-[450px]">
+                        <div className="relative h-75 w-full sm:h-112.5">
 
                             <Image
                                 src={room.image}
@@ -271,59 +271,15 @@ const RoomDetailsPage = async ({ params }) => {
 
                                 <FaCalendarCheck />
 
-                                Book Now
+                                Book Now 
 
                             </button>
 
                             {/* Edit Room */}
-                            <button
-                                className="
-                  inline-flex
-                  items-center
-                  justify-center
-                  rounded-full
-                  border
-                  border-slate-300
-                  bg-white
-                  px-8
-                  py-4
-                  text-sm
-                  font-semibold
-                  text-slate-700
-                  transition
-                  hover:border-indigo-500
-                  hover:text-indigo-600
-                  dark:border-white/10
-                  dark:bg-slate-950
-                  dark:text-gray-300
-                "
-                            >
-
-                                Edit Room
-
-                            </button>
+                            <EditRoom  room={room}/>
 
                             {/* Delete Room */}
-                            <button
-                                className="
-                  inline-flex
-                  items-center
-                  justify-center
-                  rounded-full
-                  bg-red-500
-                  px-8
-                  py-4
-                  text-sm
-                  font-semibold
-                  text-white
-                  transition
-                  hover:bg-red-600
-                "
-                            >
-
-                                Delete Room
-
-                            </button>
+                            <DeleteRoom />
 
                         </div>
 
