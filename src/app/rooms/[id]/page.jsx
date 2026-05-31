@@ -279,7 +279,7 @@ const RoomDetailsPage = async ({ params }) => {
                             <EditRoom  room={room}/>
 
                             {/* Delete Room */}
-                            <DeleteRoom />
+                            <DeleteRoom room={room} />
 
                         </div>
 
